@@ -1,0 +1,12 @@
+# RenderContext is defined inside TYPE_CHECKING in the runtime
+laces.typing.RenderContext
+
+# __conditional_annotations__ is an internal CPython/mypy detail for TYPE_CHECKING blocks
+laces.typing.__conditional_annotations__
+
+# Test modules don't need stubs
+laces.tests
+laces.tests.test_components
+laces.tests.test_templatetags
+laces.tests.test_templatetags.test_laces
+laces.tests.utils

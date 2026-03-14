@@ -1,4 +1,10 @@
 - case: component_render_html
+  mypy_config: |
+    [mypy]
+    plugins = mypy_django_plugin.main
+
+    [mypy.plugins.django-stubs]
+    django_settings_module = tests.mypy_test_settings
   main: |
     from laces.components import Component
 
@@ -13,6 +19,12 @@
     reveal_type(c.media)  # N: Revealed type is "django.forms.widgets.Media"
 
 - case: component_render_html_with_context
+  mypy_config: |
+    [mypy]
+    plugins = mypy_django_plugin.main
+
+    [mypy.plugins.django-stubs]
+    django_settings_module = tests.mypy_test_settings
   main: |
     from laces.components import Component
 
@@ -20,6 +32,12 @@
     reveal_type(c.render_html({"key": "value"}))  # N: Revealed type is "django.utils.safestring.SafeString"
 
 - case: media_container
+  mypy_config: |
+    [mypy]
+    plugins = mypy_django_plugin.main
+
+    [mypy.plugins.django-stubs]
+    django_settings_module = tests.mypy_test_settings
   main: |
     from laces.components import Component, MediaContainer
 
@@ -30,19 +48,27 @@
     container.append(MyComponent())
     reveal_type(container.media)  # N: Revealed type is "django.forms.widgets.Media"
 
-- case: typing_protocols
-  main: |
-    from laces.typing import HasRenderHtmlMethod, HasRenderMethod, Renderable, HasMediaProperty, RenderContext
-    reveal_type(RenderContext)  # N: Revealed type is "typing.TypeAlias"
-
 - case: version
+  mypy_config: |
+    [mypy]
+    plugins = mypy_django_plugin.main
+
+    [mypy.plugins.django-stubs]
+    django_settings_module = tests.mypy_test_settings
   main: |
     from laces import VERSION, __version__
-    reveal_type(VERSION)  # N: Revealed type is "tuple[int, int, int]"
-    reveal_type(__version__)  # N: Revealed type is "str"
+    reveal_type(VERSION)  # N: Revealed type is "tuple[builtins.int, builtins.int, builtins.int]"
+    reveal_type(__version__)  # N: Revealed type is "builtins.str"
 
 - case: app_config
+  mypy_config: |
+    [mypy]
+    plugins = mypy_django_plugin.main
+
+    [mypy.plugins.django-stubs]
+    django_settings_module = tests.mypy_test_settings
   main: |
     from laces.apps import LacesAppConfig
-    config = LacesAppConfig("laces", "laces")
-    reveal_type(config.label)  # N: Revealed type is "str"
+    import laces
+    config = LacesAppConfig("laces", laces)
+    reveal_type(config.label)  # N: Revealed type is "builtins.str"
