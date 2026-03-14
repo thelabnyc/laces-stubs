@@ -1,0 +1,48 @@
+- case: component_render_html
+  main: |
+    from laces.components import Component
+
+    class MyComponent(Component):
+        template_name = "my_template.html"
+
+        def get_context_data(self, parent_context=None):
+            return {"key": "value"}
+
+    c = MyComponent()
+    reveal_type(c.render_html())  # N: Revealed type is "django.utils.safestring.SafeString"
+    reveal_type(c.media)  # N: Revealed type is "django.forms.widgets.Media"
+
+- case: component_render_html_with_context
+  main: |
+    from laces.components import Component
+
+    c = Component()
+    reveal_type(c.render_html({"key": "value"}))  # N: Revealed type is "django.utils.safestring.SafeString"
+
+- case: media_container
+  main: |
+    from laces.components import Component, MediaContainer
+
+    class MyComponent(Component):
+        template_name = "my_template.html"
+
+    container = MediaContainer()
+    container.append(MyComponent())
+    reveal_type(container.media)  # N: Revealed type is "django.forms.widgets.Media"
+
+- case: typing_protocols
+  main: |
+    from laces.typing import HasRenderHtmlMethod, HasRenderMethod, Renderable, HasMediaProperty, RenderContext
+    reveal_type(RenderContext)  # N: Revealed type is "typing.TypeAlias"
+
+- case: version
+  main: |
+    from laces import VERSION, __version__
+    reveal_type(VERSION)  # N: Revealed type is "tuple[int, int, int]"
+    reveal_type(__version__)  # N: Revealed type is "str"
+
+- case: app_config
+  main: |
+    from laces.apps import LacesAppConfig
+    config = LacesAppConfig("laces", "laces")
+    reveal_type(config.label)  # N: Revealed type is "str"
