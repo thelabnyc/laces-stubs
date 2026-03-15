@@ -1,6 +1,5 @@
 from django.forms.widgets import Media, MediaDefiningClass
 from django.utils.safestring import SafeString
-
 from laces.typing import HasMediaProperty, RenderContext
 
 class Component(metaclass=MediaDefiningClass):
